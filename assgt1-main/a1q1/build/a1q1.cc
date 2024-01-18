@@ -12,8 +12,6 @@
 */
 #include <iostream>
 #include <string>
-#include <cassert>
-#include <vector>
 using namespace std;
 
 // no argc+argv because we aren't using them in A1
