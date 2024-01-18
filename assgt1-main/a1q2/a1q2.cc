@@ -18,6 +18,22 @@ int main() {
     char command;
     cin >> N >> command;
 
+    if (N <= 0) {
+        cerr << "Error, line length must be positive." << endl;
+        return 1;
+    }
+    if (command != 'f' || command != 'r') {
+        cerr << "Error, command is illegal." << endl;
+        return 1;
+    }
+    cin.ignore();
+
+    vector<string> lines;
+    string line;
+
+    while (getline(cin, line)) {
+        lines.push_back(line);
+    }
 
     return 0;
 }
