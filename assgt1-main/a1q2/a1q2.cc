@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 // no argc+argv because we aren't using them in A1
@@ -22,36 +23,51 @@ int main() {
         cerr << "Error, line length must be positive." << endl;
         return 1;
     }
-    if (command != 'f' || command != 'r') {
+    if (command != 'f' && command != 'r' && command != 'g') {
         cerr << "Error, command is illegal." << endl;
         return 1;
     }
+
     cin.ignore();
+
 
     vector<string> lines;
     string line;
-
     while (getline(cin, line)) {
         lines.push_back(line);
-    } 
+    }
     
     if (command == 'f') {
-        for (const auto& l : lines) {
-            cout << l.substr(0, N) << endl;
+        for (int i = 0; i < lines.size(); ++i) {
+            if (lines[i].length() > N) {
+                cout << lines[i].substr(0, N) << endl;
+            } else {
+                cout << lines[i] << endl;
+            }
         }
     } else if (command == 'r') {
-        for (auto it = lines.rbegin(); it != lines.rend(); ++it) {
-            cout << it->substr(0, N) << endl;
+        //print the array in reverse
+        for (int i = lines.size() - 1; i >= 0; i--) {   
+            if (lines[i].length() > N) {
+                cout << lines[i].substr(0, N) << endl;
+            } else {
+                cout << lines[i] << endl;
+            }
         }
-    } else if (command == 'g') {
-        for (const auto& l : lines) {
-            if (l.find("fnord") != string::npos) {
-                cout << l.substr(0, N) << endl;
+    } else { //command == 'g'
+        for (int i = 0; i < lines.size(); i++) {
+            int index = lines[i].find("fnord", 0);
+            // Check if "fnord" was found
+            if (index < lines[i].length()) {
+                // Found "fnord", print up to N characters of this line
+                if (lines[i].length() > N) {
+                    cout << lines[i].substr(0, N) << endl;
+                } else {
+                    cout << lines[i] << endl;
+                }
             }
         }
     }
-
-    return 0;
-
+    
     return 0;
 }
