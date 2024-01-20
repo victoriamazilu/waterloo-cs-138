@@ -26,16 +26,16 @@ int main() {
     }
     cin.ignore();
 
-    string line;
-    while (getline(cin, line)) {
-        // If the line is longer than N characters, print only the first N characters
-        if (line.length() > N) {
-            cout << line.substr(0, N) << endl;
-        } else {
-            // Otherwise, print the entire line
-            cout << line << endl;
-        }
-    }
+    // string line;
+    // while (getline(cin, line)) {
+    //     // If the line is longer than N characters, print only the first N characters
+    //     // if (line.length() > N) {
+    //     //     cout << line.substr(0, N) << endl;
+    //     // } //else {
+    //         // Otherwise, print the entire line
+    //     //     cout << line << endl;
+    //     // }
+    // }
 
     return 0;
 }

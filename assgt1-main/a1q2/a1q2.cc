@@ -33,7 +33,25 @@ int main() {
 
     while (getline(cin, line)) {
         lines.push_back(line);
+    } 
+    
+    if (command == 'f') {
+        for (const auto& l : lines) {
+            cout << l.substr(0, N) << endl;
+        }
+    } else if (command == 'r') {
+        for (auto it = lines.rbegin(); it != lines.rend(); ++it) {
+            cout << it->substr(0, N) << endl;
+        }
+    } else if (command == 'g') {
+        for (const auto& l : lines) {
+            if (l.find("fnord") != string::npos) {
+                cout << l.substr(0, N) << endl;
+            }
+        }
     }
+
+    return 0;
 
     return 0;
 }
