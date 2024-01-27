@@ -13,9 +13,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 using namespace std;
 
-// c1 functions
 vector<string> raggedRight(vector<string> list, int N) {
     string currentLine = "";
     vector<string> result;
@@ -204,10 +204,27 @@ vector<string> centre(vector<string>list,int N){
     return result;
 }
 
-// c2 function
-void print(vector<string> list) {
-    for (int i = 0; i < list.size(); i++) {
+vector<string> distributer(vector<string> list, int N, string jMode) {
+    vector<string> result;
+    if (jMode == "rr") {
+        result = raggedRight(list, N);
+    } else if (jMode == "rl") {
+        result = raggedLeft(list, N);
+    } else if (jMode == "c") {
+        result = centre(list, N);
+    } else { //(jMode == "j")
+        result = justify(list, N);
+    }
+    
+    return result;
+}
+void print(vector<string> list, bool printForward) {
+    if (printForward) {
+        for (int i = 0; i < list.size(); i++) {
             cout << list[i] << endl;
+        }
+    } else {
+        reversePrint(list);
     }
 }
 void reversePrint(vector<string> list) {
@@ -215,31 +232,40 @@ void reversePrint(vector<string> list) {
             cout << list[list.size() - 1 - i] << endl;
     }
 }
-void fnordPrint(vector<string> list) {
-    for (int i = 0; i < list.size(); i++) {
-        if (list[i].find("fnord") < list[i].size()) {  // Is a real/valif index
-            cout << list[i] << endl;
+void printKthLine(vector<string> list, int N, int k, bool printForward) {
+
+}
+void printContaining(vector<string> list, int N, string jMode, bool printForward, string searchFor) {
+    vector<string> formattedList = distributer(list, N, jMode);
+    vector<string> result;
+
+    for (int i = 0; i < formattedList.size(); i++) {
+        if (formattedList[i].find(searchFor) < formattedList[i].size()) {  // Is a real/valif index
+            result.push_back(formattedList[i]);
         }
     }
+
+    print(result, printForward);
 }
 
 int main() {
     int N;
-    string c1, c2;
-    cin >> N >> c1 >> c2;
+    string textFileName;
+    string command = "";
+    cin >> N >> textFileName;
+    ifstream textFile(textFileName);
     
     if (N <= 0) {
         cerr << "Error, line length must be positive." << endl;
         return 1;
     } 
-    if ((c1 != "rr" && c1 != "j" && c1 != "rl" && c1 != "c") || (c2 != "f" && c2 != "r" && c2 != "g")) {
-        cerr << "Error, command is illegal." << endl;
+    if (!textFile) {
+        cerr << "Error, cannot open specified text file." << endl;
+        return 1; // Exit the program with an error code
     }
-    cin.ignore();
 
     vector<string> list;
     string token;
-
     while (cin >> token) {
         if(token.length() > N){
             list.push_back(token.substr(0, N));
@@ -248,27 +274,37 @@ int main() {
         }
     }
 
-    // Function calls with c1
-    vector<string> result;
-    if (c1 == "rr") {
-        result = raggedRight(list, N);
-    } else if (c1 == "j") {
-        result = justify(list, N);
-    } else if (c1 == "rl") {
-        result = raggedLeft(list, N);
-    } else if(c1 == "c"){
-        result = centre(list, N);
+    bool printForward = true;
+    string jMode = "rr";
+
+    vector<string> result = raggedRight(list, N);
+    string command;
+   
+    while (cin >> command) {
+        if (command == "q") {
+            break; 
+        } else if (command != "rr" || command != "rl" || command != "c" || command != "j" || command != "p" || command != "k" || command != "s") {
+            cerr << "Error, command is illegal." << endl;
+        } else if (command == "rr" || command == "rl" || command == "c" || command == "j"){
+            jMode = command;
+            result = distributer(list, N, jMode);
+            print(result, printForward);
+        } else if (command == "p") {
+            print(result, printForward);
+        } else if (command == "k") {
+            int lineIndex;
+            cin >> lineIndex; // Assuming the next token is the line number
+            printKthLine(list, N, lineIndex, printForward);
+        } else if (command == "s") {
+            string searchFor;
+            cin >> searchFor; // Assuming the next token is the search string
+            printContaining(list, N, jMode, printForward, searchFor);
+        } else {
+            cerr << "Error, command is illegal." << endl;
+            return 1; // Exit the program with an error code
+        }
     }
 
-
-    // Function calls with c2
-    if (c2 == "f") {
-        print(result);
-    } else if (c2 == "r"){
-        reversePrint(result);
-    } else if (c2 == "g") {
-        fnordPrint(result);
-    }
 
     return 0;
 }
