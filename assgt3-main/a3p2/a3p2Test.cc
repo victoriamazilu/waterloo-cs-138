@@ -260,3 +260,17 @@ TEST(EndToEnd, PopOnEmptyStackShouldAssert) {
     nuke(s);
 }
 
+TEST(EndToEnd, PoppingElementsRemovesChunk) {
+    Stack s;
+    initStack(2, s); 
+    
+    push("alpha", s);
+    push("beta", s);
+    push("gamma", s);
+    pop(s); // Should remove "gamma" and delete the second chunk
+
+    string expected = "[beta, alpha]";
+    EXPECT_EQ(expected, toString(s));
+
+    nuke(s);
+}
