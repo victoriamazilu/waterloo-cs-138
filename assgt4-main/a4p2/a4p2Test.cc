@@ -115,3 +115,4 @@ TEST(removePub, givenComplexNode) {
     EXPECT_TRUE(BST_has(bst, "f"));
     BST_nuke(bst);
 }
+
