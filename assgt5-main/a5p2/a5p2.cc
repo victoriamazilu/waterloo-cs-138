@@ -90,5 +90,17 @@ void gatherWords(const LexTree* node, const string& prefix, vector<string>& word
     }
 }
 
+string LexTree::toString() const {
+    assert(isValid()); // precondition
 
+    vector<string> words;
+    gatherWords(this, "", words); 
+
+    string result;
+    for (const string& word : words) {
+        result += word + "\n";
+    }
+
+    return result;
+}
 
