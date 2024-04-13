@@ -44,3 +44,10 @@ SimpleHashTable::SimpleHashTable(int k) : HashTable(k) {}
 SimpleHashTable::~SimpleHashTable() {}
 
 
+int SimpleHashTable::hash (string key) const {
+    int sum = 0;
+    for (char c : key) {
+        sum += (int)(c); 
+    }
+    return sum % getTableSize();
+}
