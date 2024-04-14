@@ -83,3 +83,31 @@ TEST(simpleHashWithFile, testInsertWithTextFile) {
     ht.insert("dog");
 }
 
+TEST(SimpleHashTablePub, testLookupAfterModifications) {
+    SimpleHashTable ht;
+    ht.insert("first");
+    ht.insert("second");
+    ht.remove("first");
+    ht.insert("third");
+    EXPECT_TRUE(ht.lookup("third"));
+    EXPECT_FALSE(ht.lookup("first"));
+}
+
+TEST(SimpleHashTablePub, testClearTable) {
+    SimpleHashTable ht;
+    ht.insert("cleanup");
+    EXPECT_FALSE(ht.lookup("cleanu"));
+}
+
+TEST(simpleHash, insertSameWordAndRemoveOnlyOne) {
+    SimpleHashTable ht;
+    ht.insert("test");
+    ht.insert("test"); 
+    ht.insert("test"); 
+    ht.insert("ttes"); 
+    ht.insert("sett"); 
+    ht.insert("sett"); 
+    ht.remove("test");
+
+    EXPECT_TRUE(ht.lookup("test")); 
+}
